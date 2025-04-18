@@ -8,6 +8,12 @@
 </div>
 
 
+<div align="center">
+  <img src="assets/structure.png" alt="Project Structure" width="600">
+  <p><em>Visual representation of the project's structure and components</em></p>
+</div>
+
+
 ## 📋 Table of Contents
 
 - [✨ Features](#features)
@@ -155,6 +161,101 @@ function removeFromBlacklist(address user_) external
 function emergencyWithdrawERC20(address tokenAddress_, uint256 amount_) external
 function emergencyWithdrawEth() external
 ```
+
+## �� Code Documentation
+
+### Contract Structure
+```mermaid
+graph TD
+    subgraph "Presale.sol Documentation"
+        A[Contract Overview] --> B[State Variables]
+        A --> C[Events]
+        A --> D[Functions]
+        
+        B --> B1[Token Addresses]
+        B --> B2[Phase Configuration]
+        B --> B3[Security Variables]
+        
+        C --> C1[TokensPurchased]
+        C --> C2[TokensBoughtETH]
+        C --> C3[PhaseUpdated]
+        
+        D --> D1[Constructor]
+        D --> D2[Buy Functions]
+        D --> D3[Admin Functions]
+        D --> D4[Security Functions]
+    end
+```
+
+### Key Documentation Elements
+```mermaid
+mindmap
+  root((Presale Contract))
+    (State Variables)
+      (Token Addresses)
+      (Phase Configuration)
+      (Security Variables)
+    (Events)
+      (Purchase Events)
+      (Phase Events)
+      (Security Events)
+    (Functions)
+      (User Functions)
+      (Admin Functions)
+      (Security Functions)
+```
+
+### Documentation Flow
+```mermaid
+flowchart LR
+    subgraph "Documentation Types"
+        A[Contract Overview] --> B[Function Documentation]
+        B --> C[Parameter Documentation]
+        C --> D[Event Documentation]
+    end
+    
+    subgraph "Documentation Elements"
+        E[State Variables] --> F[Function Parameters]
+        F --> G[Return Values]
+        G --> H[Events Emitted]
+    end
+```
+
+### Documentation Coverage
+```mermaid
+pie title Documentation Coverage
+    "State Variables" : 30
+    "Functions" : 40
+    "Events" : 20
+    "Constructor" : 10
+```
+
+### Function Documentation Structure
+```mermaid
+graph LR
+    A[Function Name] --> B[Parameters]
+    B --> C[Return Values]
+    C --> D[Events]
+    D --> E[Requirements]
+```
+
+### Security Documentation
+```mermaid
+graph TD
+    A[Security Features] --> B[Access Control]
+    A --> C[Reentrancy Protection]
+    A --> D[Emergency Functions]
+    
+    B --> B1[Owner Only]
+    B --> B2[Blacklist]
+    
+    C --> C1[NonReentrant]
+    C --> C2[Safe Transfers]
+    
+    D --> D1[Withdraw Functions]
+    D --> D2[Pause Functions]
+```
+
 
 ## 🧪 Testing
 
