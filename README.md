@@ -1,67 +1,120 @@
-# Token Presale Smart Contract
+<h1 align="center" style="text-align: center;">🚀 Launch Vault Presale</h1>
 
-A robust and secure smart contract implementation for conducting token presales on the Arbitrum network, supporting multiple payment methods (ETH, USDT, USDC) with phased pricing structures.
+<div align="center">
+  <img src="https://img.shields.io/badge/Solidity-0.8.26-blue?style=for-the-badge&logo=solidity&logoColor=white" alt="Solidity">
+  <img src="https://img.shields.io/badge/Foundry-FFDB1C?style=for-the-badge&logo=ethereum&logoColor=black" alt="Foundry">
+  <img src="https://img.shields.io/badge/Arbitrum-28A0F0?style=for-the-badge&logo=arbitrum&logoColor=white" alt="Arbitrum">
+  <img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge" alt="License">
+</div>
 
-## Features
 
-- **Multiple Payment Options**
-  - ETH (Native cryptocurrency)
-  - USDT
-  - USDC
+## 📋 Table of Contents
 
-- **Multi-Phase System**
-  - Configurable phases with different prices
-  - Automatic phase transitions based on sales volume and time
-  - Individual phase caps
+- [✨ Features](#features)
+- [🏗 Architecture](#architecture)
+- [🚀 Getting Started](#getting-started)
+- [💻 Usage](#usage)
+- [🧪 Testing](#testing)
+- [🔒 Security](#security)
+- [🤝 Contributing](#contributing)
+- [📄 License](#license)
 
-- **Security Features**
-  - Blacklist functionality for suspicious addresses
-  - Emergency withdrawal mechanisms
-  - Reentrancy protection
-  - OpenZeppelin's secure token standards
-  - Owner-only administrative functions
+## ✨ Features
 
-- **Price Oracle Integration**
-  - Chainlink price feed integration for accurate ETH/USD conversion
+### 💰 Payment System
+| Method | Description | Price |
+|--------|-------------|--------|
+| ETH | Direct Ethereum payment | Variable |
+| USDT | Tether payment | Fixed |
+| USDC | USD Coin payment | Fixed |
 
-- **Token Distribution**
-  - Automated token distribution system
-  - Claim mechanism after presale ends
-  - Maximum selling amount cap
+### 📊 Presale Phases
+```mermaid
+graph TD
+    A[Phase 1] -->|Completed| B[Phase 2]
+    B -->|Completed| C[Phase 3]
+    A -->|Time| B
+    B -->|Time| C
+```
 
-## Smart Contracts
+### 🔒 Security Features
+- ✅ Reentrancy protection
+- ✅ Address blacklisting
+- ✅ Emergency functions
+- ✅ Role-based access control
 
-### Main Contracts
-- `Presale.sol`: Main presale contract handling token sales and distributions
-- `IAgregator.sol`: Interface for Chainlink price feed integration
+## 🏗 Architecture
 
-### Dependencies
-- OpenZeppelin Contracts
-  - ERC20
-  - Ownable
-  - ReentrancyGuard
-  - SafeERC20
+### Project Structure
+```mermaid
 
-## Technical Specifications
+graph TD
+    subgraph "Project Structure"
+        A[LauchVault] --> B[src]
+        A --> C[test]
+        A --> D[lib]
+        A --> E[script]
+        
+        B --> F[Presale.sol]
+        B --> G[interfaces]
+        G --> H[IAgregator.sol]
+        
+        C --> I[Presale.t.sol]
+        
+        D --> J[openzeppelin-contracts]
+        
+    end
+```
 
-### Presale Phases
-The presale consists of three phases, each with:
-- Token allocation
-- Token price
-- Time duration
+### Flow Diagram
+```mermaid
+sequenceDiagram
+    participant User
+    participant Contract
+    participant Oracle
+    User->>Contract: Buy tokens
+    Contract->>Oracle: Query price
+    Oracle-->>Contract: Return price
+    Contract->>User: Deliver tokens
+```
 
-### Supported Networks
-- Arbitrum Mainnet
+### Flow Transactions
+```mermaid
+sequenceDiagram
+    participant User
+    participant Presale
+    participant Oracle
+    participant Token
+    
+    User->>Presale: Buy Tokens (ETH/USDT/USDC)
+    Presale->>Oracle: Get ETH Price
+    Oracle-->>Presale: Return Price
+    Presale->>Presale: Calculate Token Amount
+    Presale->>Presale: Update Phase if Needed
+    Presale->>Token: Transfer Payment
+    Presale->>Presale: Update User Balance
+    Presale-->>User: Confirm Purchase
+    
+    Note over User,Presale: After Presale Ends
+    User->>Presale: Claim Tokens
+    Presale->>Presale: Verify Balance
+    Presale->>Token: Transfer Tokens
+    Token-->>User: Receive Tokens
+```
+
+## 🚀 Getting Started
 
 ### Prerequisites
-- Foundry
-- Solidity ^0.8.26
+- [Git](https://git-scm.com/)
+- [Foundry](https://getfoundry.sh/)
+- [Node.js](https://nodejs.org/)
 
-## Setup and Deployment
+### Installation
 
 1. Clone the repository
 ```bash
-git clone <repository-url>
+git clone https://github.com/yourusername/presale-contract.git
+cd presale-contract
 ```
 
 2. Install dependencies
@@ -69,57 +122,101 @@ git clone <repository-url>
 forge install
 ```
 
-3. Run tests
+3. Set up environment
 ```bash
+cp .env.example .env
+# Edit .env with your configuration
+```
+
+## 💻 Usage
+
+
+### Contract Interaction
+
+#### For Users
+```solidity
+// Buy tokens with ETH
+function buyTokensEth() external payable
+
+// Buy tokens with USDT/USDC
+function buyTokensERC20(address tokenUsedToBuy_, uint256 amount_) external
+
+// Claim purchased tokens
+function claimTokens() external
+```
+
+#### For Administrators
+```solidity
+// Blacklist management
+function addToBlacklist(address user_) external
+function removeFromBlacklist(address user_) external
+
+// Emergency functions
+function emergencyWithdrawERC20(address tokenAddress_, uint256 amount_) external
+function emergencyWithdrawEth() external
+```
+
+## 🧪 Testing
+
+### Running Tests
+```bash
+# Run all tests
 forge test
+
+# Run specific test
+forge test --match-path test/Presale.t.sol
+
+# Run with verbosity
+forge test -vvv
 ```
 
-4. Deploy contract (example for Arbitrum mainnet)
+### Test Coverage
 ```bash
-forge script script/Deploy.s.sol --rpc-url <your-rpc-url> --private-key <your-private-key>
+forge coverage
 ```
 
-## Contract Parameters
+## 🔒 Security
 
-When deploying the presale contract, you'll need to provide:
+### Audit Status
+| Type | Status |
+|------|--------|
+| Static Analysis | ✅ Completed |
+| Unit Tests | ✅ Completed |
+| External Audit | ⏳ Pending |
 
-- USDT contract address
-- USDC contract address
-- Sale token address
-- Chainlink ETH/USD price feed address
-- Phase configurations (amount, price, duration)
-- Maximum selling amount
-- Funds receiver address
-- Start and end times
+### Security Measures
+- 🔒 Reentrancy protection
+- 🔑 Access control
+- 🧮 Safe math operations
+- 🚨 Emergency functions
+- ⚠️ Blacklist capability
 
-## Testing
+## 🤝 Contributing
 
-The project includes comprehensive tests covering:
-- Initial setup verification
-- Token purchases with USDT
-- Token purchases with ETH
-- Phase transitions
-- Blacklist functionality
-- Token claiming
-- Emergency withdrawals
-
-Run the tests using:
+1. Fork the repository
+2. Create your feature branch
 ```bash
-forge test
+git checkout -b feature/AmazingFeature
 ```
+3. Commit your changes
+```bash
+git commit -m 'Add some AmazingFeature'
+```
+4. Push to the branch
+```bash
+git push origin feature/AmazingFeature
+```
+5. Open a Pull Request
 
-## Security Considerations
+## 📄 License
 
-- Contract includes emergency withdrawal functions for both ERC20 tokens and ETH
-- Blacklist functionality to prevent malicious actors
-- ReentrancyGuard implementation to prevent reentrancy attacks
-- SafeERC20 usage for secure token transfers
-- Owner-only access for critical functions
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## License
+---
 
-MIT License
+<div align="center">
+  <sub>Built with ❤️ by Your Name</sub>
+</div>
 
-## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+
