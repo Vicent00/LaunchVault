@@ -7,9 +7,10 @@
   <img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge" alt="License">
 </div>
 
+<br>
 
 <div align="center">
-  <img src="assets/structure.png" alt="Project Structure" width="600">
+  <img src="structure.png" alt="Project Structure" width="600">
   <p><em>Visual representation of the project's structure and components</em></p>
 </div>
 
